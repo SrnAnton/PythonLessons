@@ -46,6 +46,8 @@ array = [da, db, dc, dd]
 min_ = min(array)
 
 print(f'minimum is {min_}')
+print()
 
 for i in array:
-    print(f"diff {i - min_}")
+    print(format(i - min_, ".16"))
+
