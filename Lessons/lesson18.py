@@ -1,3 +1,10 @@
+# Ваша задача:
+#
+#     Создайте новый класс Building
+#     Создайте инициализатор для класса Building, который будет задавать целочисленный атрибут этажности self.numberOfFloors и строковый атрибут self.buildingType
+#     Создайте(перегрузите) __eq__, используйте атрибут numberOfFloors и buildingType для сравнения
+#     Полученный код напишите в ответ к домашему заданию
+
 class Building:
     def __init__(self, number_of_floors, building_type):
         self.numberOfFloors = number_of_floors
