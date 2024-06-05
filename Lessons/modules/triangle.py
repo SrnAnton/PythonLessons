@@ -11,6 +11,9 @@ import math
 class Triangle(Figure):
 
     def __init__(self, sides=(1, 1, 1), color=(0, 0, 0)):
+        if len(sides) != 3:
+            sides = (1, 1, 1)
+
         super().__init__(sides, color)
         self.__height = self.calculate_triangle_height(*sides)
 
