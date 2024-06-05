@@ -16,8 +16,6 @@ class Circle(Figure):
     def __init__(self, length=0, color=(0, 0, 0)):
         super().__init__([length], color)
 
-        self.set_sides(self.__len__())
-
     def get_square(self):
         return math.pi * self.get_radius() ** 2
 
