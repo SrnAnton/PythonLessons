@@ -32,7 +32,7 @@ def string_info(s):
 
 def is_contains(s, lst):
     count_calls()
-    return any(s in item for item in lst)
+    return any(s.lower() in item.lower() for item in lst)
 
 
 # Вызов функции count_calls
@@ -45,7 +45,7 @@ print(f"Строка в верхнем регистре: {result[1]}")
 print(f"Строка в нижнем регистре: {result[2]}")
 
 # Вызов функции is_contains
-search_list = ["hello", "world", "python", "Hello"]
+search_list = ["hello", "world", "python"]
 search_string = "Hello"
 if is_contains(search_string, search_list):
     print("Строка 'Hello' содержится в списке.")
