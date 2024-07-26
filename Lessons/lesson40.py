@@ -1,5 +1,4 @@
 import queue
-import random
 import threading
 import time
 from threading import Thread
@@ -12,13 +11,14 @@ class Table:
 
 
 class Cafe:
-    def __init__(self, tables):
+    def __init__(self, tables, client_maximum):
         self.queue = queue.Queue()
         self.tables = tables
         self.customers_count = 0
+        self.client_maximum = client_maximum
 
     def customer_arrival(self):
-        while True:
+        while self.customers_count < self.client_maximum:
             self.customers_count += 1
             new_customer = Customer(self.customers_count)
             print("Посетитель номер", new_customer.name, "прибыл.")
@@ -52,7 +52,7 @@ class Customer:
 
 
 tables = [Table(i) for i in range(3)]
-cafe = Cafe(tables)
+cafe = Cafe(tables, 2)
 
 customer_arrival_thread = threading.Thread(target=cafe.customer_arrival)
 customer_arrival_thread.start()
