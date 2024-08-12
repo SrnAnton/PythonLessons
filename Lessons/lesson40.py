@@ -1,4 +1,3 @@
-import queue
 import threading
 import time
 from threading import Thread
@@ -12,18 +11,23 @@ class Table:
 
 class Cafe:
     def __init__(self, tables, client_maximum):
-        self.queue = queue.Queue()
+        self.queue = []
         self.tables = tables
         self.customers_count = 0
         self.client_maximum = client_maximum
 
     def customer_arrival(self):
-        while self.customers_count < self.client_maximum:
-            self.customers_count += 1
-            new_customer = Customer(self.customers_count)
-            print("Посетитель номер", new_customer.name, "прибыл.")
-            self.queue.put(new_customer)
-            self.serve_customer(self.queue.get())
+        while True:
+            if self.customers_count < self.client_maximum:
+                self.customers_count += 1
+                new_customer = Customer(self.customers_count)
+                print("Посетитель номер", new_customer.name, "прибыл.")
+                self.queue.append(new_customer)
+
+            if len(self.queue) == 0:
+                break
+
+            self.serve_customer(self.queue[0])
             time.sleep(1)
 
     def serve_customer(self, customer):
@@ -31,14 +35,14 @@ class Cafe:
             if not table.is_busy:
                 table.is_busy = True
                 print("Посетитель номер", customer.name, "сел за стол", table.number)
+                self.queue.remove(customer)
+                # Запускаем поток обслуживания посетителя
+                t = Thread(target=customer.serve, args=(table,))
+                t.start()
                 break
         else:
             print("Посетитель номер", customer.name, "ожидает свободный стол.")
             return
-
-        # Запускаем поток обслуживания посетителя
-        t = Thread(target=customer.serve, args=(table,))
-        t.start()
 
 
 class Customer:
@@ -52,7 +56,7 @@ class Customer:
 
 
 tables = [Table(i) for i in range(3)]
-cafe = Cafe(tables, 2)
+cafe = Cafe(tables, 5)
 
 customer_arrival_thread = threading.Thread(target=cafe.customer_arrival)
 customer_arrival_thread.start()
